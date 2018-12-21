@@ -1,0 +1,63 @@
+body{
+	background-color: black;
+	color: #abcdef;
+	text-align: center;
+}
+
+#container{
+	margin: auto;
+	width: 800px;
+}
+
+#nagl{
+	font-family: verdana;
+	font-size: 60px;
+}
+
+#tresc{
+	margin: 5px;
+}
+
+#key{
+	margin: 20px;
+}
+
+#wynik{
+	color: crimson;
+	font-size: 30px;
+	line-height: 2;
+}
+#patchpanel{
+	background-color: #0000ff;
+	margin: auto;
+	margin-top: 10px;
+	width: 630px;
+	height: 210px;
+	color: black;
+}
+
+.wtyczka{
+	width: 30px;
+	height: 100px;
+	background-color: #abcdef;
+	float:left;
+	margin-right:20px;
+	margin-bottom: 10px;
+	text-align: center;
+	line-height: 100px;
+}
+.wtyczka:hover{
+	background-color: yellow;
+}
+input[type=checkbox]{
+	display: none;
+}
+label {
+	display: block;
+	color: black;
+	font-weight: bold;
+}
+
+input[type=checkbox]:checked ~ label {
+	background-color: red;
+}
