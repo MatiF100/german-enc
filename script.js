@@ -1,193 +1,194 @@
 var key, message;
 var array,k_array;
-var pos1, pos2, pos3;
+var 1st_pos, 2nd_pos, 3rd_pos;
 
-//Alfabet łaciński, 26 znaków podstawowych dla kompatybilności z oryginalnymi bębnami. Wykorzystywany w symulacji procesu szyfrowania
+//Latin alphabet. Used in encryption process
 var alpha=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
 
 
-//Bębny szyfrujące, oryginalne z niemiec, Niemiec płakał jak sprzedawał.
-//BĘBNY W PEŁNI SPRAWNE, PODMIANKA PONIŻEJ. MOŻNA TEŻ PODŁĄCZYĆ WIĘCEJ DO SZYFRATORA (TRUDNE I DUŻO ROBOTY Z TYM)
+//Orginal, german encryption drums. All have 26 connections, which means every letter is changed into another one.
+//All following drums are fully functional. They can be changed at will (Currently only by modification in code itself. More on that in line 32)
 var drum1=["E","K","M","F","L","G","D","Q","V","Z","N","T","O","W","Y","H","X","U","S","P","A","I","B","R","C","J"];
 var drum2=["A","J","D","K","S","I","R","U","X","B","L","H","W","T","M","C","Q","G","Z","N","P","Y","F","V","O","E"];
 var drum3=["B","D","F","H","J","L","C","P","R","T","X","V","Z","N","Y","E","I","W","G","A","K","M","U","S","Q","O"];
-var drum4=[ "E","S","O","V","P","Z","J","A","Y","Q","U","I","R","H","X","L","N","F","T","G","K","D","C","M","W","B"];
-var drum5=[ "V","Z","B","R","G","I","T","Y","U","P","S","D","N","H","L","X","A","W","M","J","Q","O","F","E","C","K"];
-var drum6=[ "J","P","G","V","O","U","M","F","Y","Q","B","E","N","H","Z","R","D","K","A","S","X","L","I","C","T","W"];
-var drum7=[ "N","Z","J","H","G","R","C","X","M","Y","S","W","B","O","U","F","A","I","V","L","P","E","K","Q","D","T"];
-var drum8=[ "F","K","Q","H","T","L","X","O","C","B","J","S","P","D","Z","R","A","M","E","W","N","I","U","Y","G","V"];
+var drum4=["E","S","O","V","P","Z","J","A","Y","Q","U","I","R","H","X","L","N","F","T","G","K","D","C","M","W","B"];
+var drum5=["V","Z","B","R","G","I","T","Y","U","P","S","D","N","H","L","X","A","W","M","J","Q","O","F","E","C","K"];
+var drum6=["J","P","G","V","O","U","M","F","Y","Q","B","E","N","H","Z","R","D","K","A","S","X","L","I","C","T","W"];
+var drum7=["N","Z","J","H","G","R","C","X","M","Y","S","W","B","O","U","F","A","I","V","L","P","E","K","Q","D","T"];
+var drum8=["F","K","Q","H","T","L","X","O","C","B","J","S","P","D","Z","R","A","M","E","W","N","I","U","Y","G","V"];
 
-//PONIŻSZYCH 2 BĘBNÓW MOŻNA UŻYWAĆ TYLKO NA 3 POZYCJI! (Tak naprawdę to na 4)
+//Following 2 drums can only be used on last position (Reversing drum doesn't count there)
 var drumBeta=[ "L","E","Y","J","V","C","N","I","X","W","P","B","Q","M","D","R","T","A","K","Z","G","F","U","H","O","S"];
-var drumGamma=[ "F","S","O","K","A","N","U","E","R","H","M","B","T","I","Y","C","W","L","Q","P","Z","X","V","G","J","D"];
+var drumGamma=["F","S","O","K","A","N","U","E","R","H","M","B","T","I","Y","C","W","L","Q","P","Z","X","V","G","J","D"];
 
 
-//Bębny odwracające. Mają 13, zamiast 26 połączeń. Umożliwiają deszyfrację po tym samym wejściu
+//Reversing drums. Comparing them to standard ones, they only have 13 instead of 26 connections and they are not rotating. Their primary role is to allow using the same input for encryption and decryption.
 var drumB = ["Y", "R", "U", "H", "Q", "S", "L", "D", "P", "X", "N", "G", "O", "K", "M", "I", "E", "B", "F", "Z", "C", "W", "V", "J", "A", "T"];
 var drumC = ["F", "V", "P", "J", "I", "A", "O", "Y", "E", "D", "R", "Z", "X", "W", "G", "C", "T", "K", "U", "Q", "S", "B", "N", "M", "H", "L"];
 var drumB_D = ["E", "N", "K", "Q", "A", "U", "Y", "W", "J", "I", "C", "O", "P", "B", "L", "M", "D", "X", "Z", "V", "F", "T", "H", "R", "G", "S"];
 var drumC_D = ["R", "D", "O", "B", "J", "N", "T", "K", "V", "E", "H", "M", "L", "F", "C", "W", "Z", "A", "X", "G", "Y", "I", "P", "S", "U", "Q"];
 
 
-//Wybór bębnów maszyny(WIP)
-var drum_a1 = drum3; 	//Bęben nr 1
-var drum_a2 = drum2; 	//Bęben nr 2
-var drum_a3 = drumBeta;	//Bęben nr 3
-var drum_R = drumB;		//Bęben odwracający
+//Here you can choose drums used by machine. Drums are counted from left to right (WIP)
+var drum_a1 = drum3; 	//Drum no. 1
+var drum_a2 = drum2; 	//Drum no. 2
+var drum_a3 = drumBeta;	//Drum no. 3
+var drum_R = drumB;		//Reversing drum
 
 
 
-//Symulacja działania ŁĄCZNICY WTYCZKOWEJ
-//Wygenerowanie nowego alfabetu i jego modyfikacja przy użyciu łącznicy
-var posL = null;
+//Simulation of PLUG SWITCHBOARD
+//New alphabet is generated and modified in real time using ugly html based switchboard interface.
+var char_pos = null;
 var alpha_N = alpha.slice(0);
-function podmien(litera){
-	litera=litera.toUpperCase();
-	if(alpha_N.indexOf(litera)==alpha.indexOf(litera)){
-		if(posL === null){
-			posL = alpha.indexOf(litera);
+function substitute(letter){
+	letter=letter.toUpperCase();
+	if(alpha_N.indexOf(letter)==alpha.indexOf(letter)){
+		if(char_pos === null){
+			char_pos = alpha.indexOf(letter);
 			
 		}
 		else{
-			alpha_N[posL]=litera;
-			alpha_N[alpha.indexOf(litera)]=alpha[posL];
+			alpha_N[char_pos]=letter;
+			alpha_N[alpha.indexOf(letter)]=alpha[char_pos];
 			//console.log(alpha_N);
-			posL=null;
+			char_pos=null;
 		}
 	}
 }
 
-function rozpocznij(){
+function start(){
 	key=document.getElementById("key").value;
 	message=document.getElementById("msg").value;
-	if (key=="" || message=="") document.getElementById("wynik").innerHTML="Nie podano wszystkich parametrów! Wprowadź dane i spróbuj ponownie!";
-	else dziel(message,key);
+	if (key=="" || message=="") document.getElementById("result").innerHTML="Not every parameter was entered! Enter all parameters and try again!";
+	else divide(message,key);
 }
 
-function dziel(text,text2){
+function divide(text,text2){
 	text=text.toUpperCase();
 	text2=text2.toUpperCase();
 	
 	array=text.split("");
 	k_array=text2.split("");
 
-	pos1 = parseInt(alpha.indexOf(k_array[2]));
-	pos2 = parseInt(alpha.indexOf(k_array[1]));
-	pos3 = parseInt(alpha.indexOf(k_array[0]));
+	1st_pos = parseInt(alpha.indexOf(k_array[2]));
+	2nd_pos = parseInt(alpha.indexOf(k_array[1]));
+	3rd_pos = parseInt(alpha.indexOf(k_array[0]));
 
-	document.getElementById("wynik").innerHTML="Twoja wyczekiwana odpowiedź śmiałku to:  </br>" + szyfrujRekur(array.length);
+	document.getElementById("result").innerHTML="Your message is now:  </br>" + run_Encryption(array.length);
 
 	
 }
 
+//Before each letter is encoded/decoded the arrangement of the drums is being changed. This function is based on real german drums design which were always rotating in specified location(This location being different to some drums was proven to be one of ENIGMA weaknesses).
 function reconfig_drums(){
-	pos1++;
+	1st_pos++;
 	
-	if(drum_a1==drum1 && pos1==24){
-		pos2++;
+	if(drum_a1==drum1 && 1st_pos==24){
+		2nd_pos++;
 	}
-	if(drum_a1==drum2 && pos1==23){
-		pos2++;
+	if(drum_a1==drum2 && 1st_pos==23){
+		2nd_pos++;
 	}
-	if(drum_a1==drum3 && pos1==18){
-		pos2++;
+	if(drum_a1==drum3 && 1st_pos==18){
+		2nd_pos++;
 	}
-	if(drum_a1==drum4 && pos1==21){
-		pos2++;
+	if(drum_a1==drum4 && 1st_pos==21){
+		2nd_pos++;
 	}
-	if(drum_a1==drum5 && pos1==17){
-		pos2++;
+	if(drum_a1==drum5 && 1st_pos==17){
+		2nd_pos++;
 	}
-	if(drum_a1==drum6 && (pos1==19 || pos1==13)){
-		pos2++;
+	if(drum_a1==drum6 && (1st_pos==19 || 1st_pos==13)){
+		2nd_pos++;
 	}
-	if(drum_a1==drum7 && (pos1==17 || pos1==1)){
-		pos2++;
+	if(drum_a1==drum7 && (1st_pos==17 || 1st_pos==1)){
+		2nd_pos++;
 	}
-	if(drum_a1==drum8 && (pos1==17 || pos1==21)){
-		pos2++;
-	}
-	
-	if(drum_a2==drum1 && pos2==24){
-		pos3++;
-	}
-	if(drum_a2==drum2 && pos2==23){
-		pos3++;
-	}
-	if(drum_a2==drum3 && pos2==18){
-		pos3++;
-	}
-	if(drum_a2==drum4 && pos2==21){
-		pos3++;
-	}
-	if(drum_a2==drum5 && pos2==17){
-		pos3++;
-	}
-	if(drum_a2==drum6 && (pos2==19 || pos2==13)){
-		pos3++;
-	}
-	if(drum_a2==drum7 && (pos2==17 || pos2==1)){
-		pos3++;
-	}
-	if(drum_a2==drum8 && (pos2==17 || pos2==21)){
-		pos3++;
+	if(drum_a1==drum8 && (1st_pos==17 || 1st_pos==21)){
+		2nd_pos++;
 	}
 	
+	if(drum_a2==drum1 && 2nd_pos==24){
+		3rd_pos++;
+	}
+	if(drum_a2==drum2 && 2nd_pos==23){
+		3rd_pos++;
+	}
+	if(drum_a2==drum3 && 2nd_pos==18){
+		3rd_pos++;
+	}
+	if(drum_a2==drum4 && 2nd_pos==21){
+		3rd_pos++;
+	}
+	if(drum_a2==drum5 && 2nd_pos==17){
+		3rd_pos++;
+	}
+	if(drum_a2==drum6 && (2nd_pos==19 || 2nd_pos==13)){
+		3rd_pos++;
+	}
+	if(drum_a2==drum7 && (2nd_pos==17 || 2nd_pos==1)){
+		3rd_pos++;
+	}
+	if(drum_a2==drum8 && (2nd_pos==17 || 2nd_pos==21)){
+		3rd_pos++;
+	}
 	
-	if(pos1>=drum_a1.length){
-		pos1=0;
+	
+	if(1st_pos>=drum_a1.length){
+		1st_pos=0;
 	}
-	if(pos2>=drum_a2.length){
-		pos2=0;
+	if(2nd_pos>=drum_a2.length){
+		2nd_pos=0;
 	}
-	if(pos3>=drum_a3.length){
-		pos3=0;
+	if(3rd_pos>=drum_a3.length){
+		3rd_pos=0;
 	}
 }
-//Pełny chwały tryb rekurencyjny
-function szyfrujRekur(dlug){
+//Encrypting was realised using recursive function. It just encodes all letters of original message "char by char" until there is no more characters in array left. Spaces and letters are ommited.
+function run_Encryption(steps){
 	var exit;
 	//console.log(alpha_N);
 	reconfig_drums();
 
 	
-	if (array[array.length-dlug]!=" " && isNaN(parseInt(array[array.length-dlug]))!=false){
-		//1 seria szyfrująca
-		var s1=alpha_N.indexOf(array[array.length-dlug])-pos1;
+	if (array[array.length-steps]!=" " && isNaN(parseInt(array[array.length-steps]))!=false){
+		//1st encrypting sequence
+		var s1=alpha_N.indexOf(array[array.length-steps])-1st_pos;
 		if (s1<0) s1=alpha_N.length+s1;
 		var step1 = drum3[s1];	
 		
-		var s2=alpha.indexOf(step1)-pos2;
+		var s2=alpha.indexOf(step1)-2nd_pos;
 		if (s2<0) s2=alpha.length+s2;
 		var step2 = drum2[s2];
 		
-		var s3=alpha.indexOf(step2)-pos3;
+		var s3=alpha.indexOf(step2)-3rd_pos;
 		if (s3<0) s3=alpha.length+s3;
 		var step3 = drum1[s3];
 		
 		
-		//bęben odwracający
+		//Chars getting through reversing drum
 		var step4 = drumB[alpha.indexOf(step3)];
 		
 		
-		//2 seria szyfrująca
-		var s5=drum1.indexOf(step4)+pos3;
+		//2nd encrypting sequence
+		var s5=drum1.indexOf(step4)+3rd_pos;
 		if (s5>=alpha.length) s5=s5-alpha.length;
 		var step5 = alpha[s5];
 		
-		var s6=drum2.indexOf(step5)+pos2;
+		var s6=drum2.indexOf(step5)+2nd_pos;
 		if (s6>=alpha.length) s6=s6-alpha.length;
 		var step6 = alpha[s6];
 		
-		var s7=drum3.indexOf(step6)+pos1;
+		var s7=drum3.indexOf(step6)+1st_pos;
 		if (s7>=alpha_N.length) s7=s7-alpha_N.length;
 		var step7 = alpha_N[s7];
 		exit = step7;
 
 	}
-	else exit = array[array.length-dlug];
+	else exit = array[array.length-steps];
 	
-	if (dlug==1) return exit;
-	return exit + szyfrujRekur(dlug-1);
+	if (steps==1) return exit;
+	return exit + run_Encryption(steps-1);
 	
 }

@@ -9,12 +9,12 @@ body{
 	width: 800px;
 }
 
-#nagl{
+#top{
 	font-family: verdana;
 	font-size: 60px;
 }
 
-#tresc{
+#content{
 	margin: 5px;
 }
 
@@ -22,7 +22,7 @@ body{
 	margin: 20px;
 }
 
-#wynik{
+#result{
 	color: crimson;
 	font-size: 30px;
 	line-height: 2;
@@ -36,7 +36,7 @@ body{
 	color: black;
 }
 
-.wtyczka{
+.plug{
 	width: 30px;
 	height: 100px;
 	background-color: #abcdef;
@@ -46,7 +46,7 @@ body{
 	text-align: center;
 	line-height: 100px;
 }
-.wtyczka:hover{
+.plug:hover{
 	background-color: yellow;
 }
 input[type=checkbox]{
