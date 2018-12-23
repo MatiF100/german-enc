@@ -1,6 +1,6 @@
 var key, message;
 var array,k_array;
-var 1st_pos, 2nd_pos, 3rd_pos;
+var pos_1st, pos_2nd, pos_3rd;
 
 //Latin alphabet. Used in encryption process
 var alpha=["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
@@ -71,9 +71,9 @@ function divide(text,text2){
 	array=text.split("");
 	k_array=text2.split("");
 
-	1st_pos = parseInt(alpha.indexOf(k_array[2]));
-	2nd_pos = parseInt(alpha.indexOf(k_array[1]));
-	3rd_pos = parseInt(alpha.indexOf(k_array[0]));
+	pos_1st = parseInt(alpha.indexOf(k_array[2]));
+	pos_2nd = parseInt(alpha.indexOf(k_array[1]));
+	pos_3rd = parseInt(alpha.indexOf(k_array[0]));
 
 	document.getElementById("result").innerHTML="Your message is now:  </br>" + run_Encryption(array.length);
 
@@ -82,67 +82,67 @@ function divide(text,text2){
 
 //Before each letter is encoded/decoded the arrangement of the drums is being changed. This function is based on real german drums design which were always rotating in specified location(This location being different to some drums was proven to be one of ENIGMA weaknesses).
 function reconfig_drums(){
-	1st_pos++;
+	pos_1st++;
 	
-	if(drum_a1==drum1 && 1st_pos==24){
-		2nd_pos++;
+	if(drum_a1==drum1 && pos_1st==24){
+		pos_2nd++;
 	}
-	if(drum_a1==drum2 && 1st_pos==23){
-		2nd_pos++;
+	if(drum_a1==drum2 && pos_1st==23){
+		pos_2nd++;
 	}
-	if(drum_a1==drum3 && 1st_pos==18){
-		2nd_pos++;
+	if(drum_a1==drum3 && pos_1st==18){
+		pos_2nd++;
 	}
-	if(drum_a1==drum4 && 1st_pos==21){
-		2nd_pos++;
+	if(drum_a1==drum4 && pos_1st==21){
+		pos_2nd++;
 	}
-	if(drum_a1==drum5 && 1st_pos==17){
-		2nd_pos++;
+	if(drum_a1==drum5 && pos_1st==17){
+		pos_2nd++;
 	}
-	if(drum_a1==drum6 && (1st_pos==19 || 1st_pos==13)){
-		2nd_pos++;
+	if(drum_a1==drum6 && (pos_1st==19 || pos_1st==13)){
+		pos_2nd++;
 	}
-	if(drum_a1==drum7 && (1st_pos==17 || 1st_pos==1)){
-		2nd_pos++;
+	if(drum_a1==drum7 && (pos_1st==17 || pos_1st==1)){
+		pos_2nd++;
 	}
-	if(drum_a1==drum8 && (1st_pos==17 || 1st_pos==21)){
-		2nd_pos++;
-	}
-	
-	if(drum_a2==drum1 && 2nd_pos==24){
-		3rd_pos++;
-	}
-	if(drum_a2==drum2 && 2nd_pos==23){
-		3rd_pos++;
-	}
-	if(drum_a2==drum3 && 2nd_pos==18){
-		3rd_pos++;
-	}
-	if(drum_a2==drum4 && 2nd_pos==21){
-		3rd_pos++;
-	}
-	if(drum_a2==drum5 && 2nd_pos==17){
-		3rd_pos++;
-	}
-	if(drum_a2==drum6 && (2nd_pos==19 || 2nd_pos==13)){
-		3rd_pos++;
-	}
-	if(drum_a2==drum7 && (2nd_pos==17 || 2nd_pos==1)){
-		3rd_pos++;
-	}
-	if(drum_a2==drum8 && (2nd_pos==17 || 2nd_pos==21)){
-		3rd_pos++;
+	if(drum_a1==drum8 && (pos_1st==17 || pos_1st==21)){
+		pos_2nd++;
 	}
 	
+	if(drum_a2==drum1 && pos_2nd==24){
+		pos_3rd++;
+	}
+	if(drum_a2==drum2 && pos_2nd==23){
+		pos_3rd++;
+	}
+	if(drum_a2==drum3 && pos_2nd==18){
+		pos_3rd++;
+	}
+	if(drum_a2==drum4 && pos_2nd==21){
+		pos_3rd++;
+	}
+	if(drum_a2==drum5 && pos_2nd==17){
+		pos_3rd++;
+	}
+	if(drum_a2==drum6 && (pos_2nd==19 || pos_2nd==13)){
+		pos_3rd++;
+	}
+	if(drum_a2==drum7 && (pos_2nd==17 || pos_2nd==1)){
+		pos_3rd++;
+	}
+	if(drum_a2==drum8 && (pos_2nd==17 || pos_2nd==21)){
+		pos_3rd++;
+	}
 	
-	if(1st_pos>=drum_a1.length){
-		1st_pos=0;
+	
+	if(pos_1st>=drum_a1.length){
+		pos_1st=0;
 	}
-	if(2nd_pos>=drum_a2.length){
-		2nd_pos=0;
+	if(pos_2nd>=drum_a2.length){
+		pos_2nd=0;
 	}
-	if(3rd_pos>=drum_a3.length){
-		3rd_pos=0;
+	if(pos_3rd>=drum_a3.length){
+		pos_3rd=0;
 	}
 }
 //Encrypting was realised using recursive function. It just encodes all letters of original message "char by char" until there is no more characters in array left. Spaces and letters are ommited.
@@ -154,15 +154,15 @@ function run_Encryption(steps){
 	
 	if (array[array.length-steps]!=" " && isNaN(parseInt(array[array.length-steps]))!=false){
 		//1st encrypting sequence
-		var s1=alpha_N.indexOf(array[array.length-steps])-1st_pos;
+		var s1=alpha_N.indexOf(array[array.length-steps])-pos_1st;
 		if (s1<0) s1=alpha_N.length+s1;
 		var step1 = drum3[s1];	
 		
-		var s2=alpha.indexOf(step1)-2nd_pos;
+		var s2=alpha.indexOf(step1)-pos_2nd;
 		if (s2<0) s2=alpha.length+s2;
 		var step2 = drum2[s2];
 		
-		var s3=alpha.indexOf(step2)-3rd_pos;
+		var s3=alpha.indexOf(step2)-pos_3rd;
 		if (s3<0) s3=alpha.length+s3;
 		var step3 = drum1[s3];
 		
@@ -172,15 +172,15 @@ function run_Encryption(steps){
 		
 		
 		//2nd encrypting sequence
-		var s5=drum1.indexOf(step4)+3rd_pos;
+		var s5=drum1.indexOf(step4)+pos_3rd;
 		if (s5>=alpha.length) s5=s5-alpha.length;
 		var step5 = alpha[s5];
 		
-		var s6=drum2.indexOf(step5)+2nd_pos;
+		var s6=drum2.indexOf(step5)+pos_2nd;
 		if (s6>=alpha.length) s6=s6-alpha.length;
 		var step6 = alpha[s6];
 		
-		var s7=drum3.indexOf(step6)+1st_pos;
+		var s7=drum3.indexOf(step6)+pos_1st;
 		if (s7>=alpha_N.length) s7=s7-alpha_N.length;
 		var step7 = alpha_N[s7];
 		exit = step7;
