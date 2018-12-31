@@ -145,7 +145,8 @@ function reconfig_drums(){
 		pos_3rd=0;
 	}
 }
-//Encrypting was realised using recursive function. It just encodes all letters of original message "char by char" until there is no more characters in array left. Spaces and letters are ommited.
+//Encrypting was realised using recursive function. It just encodes all letters of original message "char by char" until there is no more characters in array left. 
+//Spaces and numbers are ommited.
 function run_Encryption(steps){
 	var exit;
 	//console.log(alpha_N);
